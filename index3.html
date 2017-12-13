@@ -1,0 +1,201 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>聚才云网 | 江西才情监测数据中心 - 江西人才人事网</title>
+<link rel="stylesheet" type="text/css" href="templates/css/i_1.css">
+<script src="templates/js/echarts.js"></script>
+<script src="templates/js/jquery.min.js"></script>
+<script src="templates/js/china.js"></script>
+<script type="text/javascript">
+$(function (){
+  dataRc();
+  dataTz();
+  dataJobs();
+  dataPc();
+  dataWap();
+});
+function dataRc() {
+  var n = parseInt($("#dataRc").html());
+  var r = parseInt(2*Math.random());
+  $("#dataRc").html(n+r);
+  setTimeout(dataRc,5000);
+}
+function dataJobs() {
+  var n = parseInt($("#dataJobs").html());
+  var r = parseInt(2*Math.random());
+  $("#dataJobs").html(n+r);
+  setTimeout(dataJobs,5000);
+}
+function dataTz() {
+  var n = parseInt($("#dataTz").html());
+  var r = parseInt(3*Math.random());
+  $("#dataTz").html(n+r);
+  setTimeout(dataTz,6000);
+}
+function dataPc() {
+  var n = parseInt($("#dataPc").html());
+  var r = parseInt(5*Math.random());
+  $("#dataPc").html(n+r);
+  setTimeout(dataPc,2000);
+}
+function dataWap() {
+  var n = parseInt($("#dataWap").html());
+  var r = parseInt(3*Math.random());
+  $("#dataWap").html(n+r);
+  setTimeout(dataWap,4000);
+}
+</script>
+</head>
+
+<body>
+<div class="wrap_inner">
+
+
+    
+
+    
+    <div class="mod">
+      <div class="layout">
+        <div class="tab_yun tab-box">
+            <div id="tabYun" style="width:980px;height:500px" ></div>
+            <div id="tabwwwA" style="width:980px;height:500px" ></div>
+			<script type="text/javascript">
+              // 基于准备好的dom，初始化echarts实例
+              var myChart = echarts.init(document.getElementById('tabYun'));		
+              // 指定图表的配置项和数据
+              var option = {
+							title : {
+								text: '聚才云网 | 薪酬分布图',
+								subtext: '数据截止：2017-7-25',
+								x:'center'
+							},
+							tooltip : {
+								trigger: 'item',
+								formatter: "{a} <br/>{b} : {c} ({d}%)"
+							},
+							legend: {
+								orient: 'vertical',
+								left: 'left',
+								data: ['2000以下','2000-3000元','3000-4500元','4500-6000元','6000-8000元','8000-10000元','10000-15000元','15000元以上']
+							},
+							series : [
+								{
+									name: '薪酬指数',
+									type: 'pie',
+									radius : '55%',
+									center: ['50%', '60%'],
+									data:[
+										{value:103855, name:'2000以下'},
+										{value:192979, name:'2000-3000元'},
+										{value:169751, name:'3000-4500元'},
+										{value:72174, name:'4500-6000元'},
+										{value:34118, name:'6000-8000元'},
+						
+										{value:18849, name:'8000-10000元'},
+										{value:14253, name:'10000-15000元'},
+										{value:9992, name:'15000元以上'}
+									],
+									itemStyle: {
+										emphasis: {
+											shadowBlur: 10,
+											shadowOffsetX: 0,
+											shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+									}
+								}
+							]
+						};
+              // 使用刚指定的配置项和数据显示图表。
+              myChart.setOption(option);
+          </script>   
+          <script type="text/javascript">
+              // 基于准备好的dom，初始化echarts实例
+              var myChart = echarts.init(document.getElementById('tabwwwA'));   
+              // 指定图表的配置项和数据
+              var option = {
+              title: {
+                text: '薪酬指数'
+              },
+             //color:['#00a65a','#f39c12','#00c0ef'],
+              tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'cross',
+                  label: {
+                    backgroundColor: '#6a7985'
+                  }
+                }
+              },
+              legend: {
+                data:['最低工资','平均工资','党员平均工资']
+              },
+              toolbox: {
+                feature: {
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                }
+              },
+              grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis : [
+                {
+                  type : 'category',
+                  boundaryGap : false,
+                  data : ['2010','2011','2012','2013','2014','2015','2016','2017']
+                }
+              ],
+              yAxis : [
+                {
+                  type : 'value',
+                  axisLabel: {
+                    formatter: '{value} 元'
+                  },
+                  data : ['1000','2000','3000','4000','5000','6000']
+                }
+              ],
+              series : [
+                {
+                  name:'最低工资',
+                  type:'line',
+                  
+                  data:[720, 720, 870, 870, 1390, 1530, 1530,1530]
+                },
+                {
+                  name:'平均工资',
+                  type:'line',
+                  
+                  data:[1913, 2505, 3017, 3166, 3470, 4087, 4444,5040]
+                },
+                {
+                  name:'党员平均工资',
+                  type:'line',
+                  
+                  data:[2113, 2635, 3223, 3423, 3568, 4235, 4625,5368]
+                }
+              ]
+            };
+              // 使用刚指定的配置项和数据显示图表。
+              myChart.setOption(option);
+          </script>         
+        </div>
+      </div>
+    </div>
+    
+
+
+        
+
+    
+
+    
+  </div>
+
+</div>
+
+</body>
+</html>

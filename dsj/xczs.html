@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0;width: 100%;">
+       <div id="container" style="height: 100%;width: 100%;"></div>
+       <script type="text/javascript" src="js/jquery.js"></script>
+       <script src="../templates/js/echarts.js"></script>
+       <script type="text/javascript" src="js/ecStat.min.js"></script>
+       <script type="text/javascript" src="js/dataTool.min.js"></script>
+       <script type="text/javascript" src="js/china.js"></script>
+       <script type="text/javascript" src="js/world.js"></script>
+      <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="js/bmap.min.js"></script>
+       <script type="text/javascript" src="js/life-expectancy.js"></script>
+
+       <script type="text/javascript">
+var dom = document.getElementById("container"); 
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+
+ var option = {
+              title: {
+                text: '江西省薪酬指数概览',
+        			subtext: '江西人才大智库',
+              left:'center',
+              textStyle : {
+                  fontSize:40,
+
+              },
+              subtextStyle:{
+                fontSize:30
+              }
+              },
+             //color:['#00a65a','#f39c12','#00c0ef'],
+              tooltip : {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'cross',
+                  label: {
+                    backgroundColor: '#6a7985'
+                  }
+                }
+              },
+              legend: {
+                top:100,
+                data:['最低工资','平均工资','党员平均工资']
+              },
+              toolbox: {
+                top:100,
+                feature: {
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                }
+              },
+              grid: {
+                top:150,
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis : [
+                {
+                  type : 'category',
+                  boundaryGap : false,
+                  data : ['2010','2011','2012','2013','2014','2015','2016','2017']
+                }
+              ],
+              yAxis : [
+                {
+                  type : 'value',
+                  axisLabel: {
+                    formatter: '{value} 元'
+                  },
+                  data : ['1000','2000','3000','4000','5000','6000']
+                }
+              ],
+              series : [
+                {
+                  name:'最低工资',
+                  type:'line',
+									radius : '55%',
+									center: ['50%', '60%'],
+                  data:[720, 720, 870, 870, 1390, 1530, 1530,1530]
+                },
+                {
+                  name:'平均工资',
+                  type:'line',
+                  data:[1913, 2505, 3017, 3166, 3470, 4087, 4444,5040]
+                },
+                {
+                  name:'党员平均工资',
+                  type:'line',
+                  
+                  data:[2113, 2635, 3223, 3423, 3568, 4235, 4625,5368]
+                },
+                {
+									name: '薪酬指数',
+									type: 'pie',
+									radius : '20%',
+									center: ['28%', '25%'],
+									data:[
+										{value:103855, name:'2000以下'},
+										{value:192979, name:'2000-3000元'},
+										{value:169751, name:'3000-4500元'},
+										{value:72174, name:'4500-6000元'},
+										{value:34118, name:'6000-8000元'},						
+										{value:18849, name:'8000-10000元'},
+										{value:14253, name:'10000-15000元'},
+										{value:9992, name:'15000元以上'}
+									],
+                   
+									itemStyle: {
+										emphasis: {
+											shadowBlur: 10,
+											shadowOffsetX: 0,
+											shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+									}
+								}
+
+              ]
+            };
+
+                    
+
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

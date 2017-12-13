@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0;width: 100%;">
+       <div id="container" style="height: 100%;width: 100%;"></div>
+       <script type="text/javascript" src="js/jquery.js"></script>
+       <script src="../templates/js/echarts.js"></script>
+       <script type="text/javascript" src="js/ecStat.min.js"></script>
+       <script type="text/javascript" src="js/dataTool.min.js"></script>
+       <script type="text/javascript" src="js/china.js"></script>
+       <script type="text/javascript" src="js/world.js"></script>
+      <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="js/bmap.min.js"></script>
+       <script type="text/javascript" src="js/life-expectancy.js"></script>
+
+       <script type="text/javascript">
+var dom = document.getElementById("container"); 
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+
+myChart.showLoading();
+
+
+    myChart.hideLoading();
+
+app.title = '热力图与百度地图扩展';
+
+//$.get('ec/json/香港/香港.json', function (geoJson) {
+$.get('ec/json/江西/南昌市.json', function (geoJson) {
+echarts.registerMap('南昌市', geoJson);
+option = {
+    title: {
+        text: '南昌市企业密度图',
+        //subtext: 'from United Nations, Total population, both sexes combined, as of 1 July (thousands)',
+        //sublink: 'http://esa.un.org/wpp/Excel-Data/population.htm',
+        left: 'center',
+        top: 'top'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: function (params) {
+            var value = (params.value + '').split('.');
+            value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
+                    + '.' + value[1];
+            return params.seriesName + '<br/>' + params.name + ' : ' + value;
+        }
+    },
+    toolbox: {
+        show: true,
+        orient: 'vertical',
+        left: 'right',
+        top: 'center',
+        feature: {
+            dataView: {readOnly: false},
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    visualMap: {
+        min: 0,
+        max: 1000000,
+        text:['High','Low'],
+        realtime: false,
+        calculable: true,
+        inRange: {
+            color: ['lightskyblue','yellow', 'orangered']
+        }
+    },
+    series: [
+        {
+            //name: 'jiangxi',
+            type: 'map',
+			map: '南昌市',
+            //mapType: 'xianggang',
+            //roam: true,
+            itemStyle:{
+                emphasis:{label:{show:true}}
+            },
+											            label: {
+											                normal: {
+											                    show: true
+											                },
+											                emphasis: {
+											                    show: true
+											                }
+											            },
+            data:[
+                //{name: '中西区', value: 20057.34},
+                {name: '东湖区', value: 880057.24},
+                {name: '西湖区', value: 516057.34},
+                {name: '青山湖区', value: 616057.34},
+                {name: '青云谱区', value: 422057.14},
+                {name: '南昌县', value: 322057.14},
+                {name: '进贤县', value: 132057.14},
+                {name: '湾里区', value: 2057.14},
+                {name: '安义区', value: 257.14},
+            ]
+        }
+    ]
+};
+
+myChart.setOption(option, true);
+});
+
+                    
+
+
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    </head>
+    <body>
+       <div id="container" style="height: 100%;width: 100%;"></div>
+       <script type="text/javascript" src="js/jquery.js"></script>
+       <script type="text/javascript" src="js/echarts-all-3.js"></script>
+       <script type="text/javascript" src="js/ecStat.min.js"></script>
+       <!-- <script src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script> -->
+        <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM&services=&t=20171206160303"></script> 
+       <script type="text/javascript" src="js/bmap.min.js"></script>
+       
+
+
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" ></div>
+    <script type="text/javascript">
+        var uploadedDataURL = "txt.txt";
+        var dom = $("#main");
+        var myChart = echarts.init(dom);
+function convertData(sourceData) {
+    return [].concat.apply([], $.map(sourceData, function(stop, index) {
+        return {
+            name: stop.stopName,
+            value: [stop.jingdu, stop.weidu, Math.random() * 100, Math.random() * 100]
+        };
+    }));
+}
+
+var option = {
+    bmap: {
+        roam: true,
+        mapStyle: {
+            'styleJson': [{
+                'featureType': 'water',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#031628'//水颜色
+                }
+            }, {
+                'featureType': 'land',
+                'elementType': 'geometry',
+                'stylers': {
+                    'color': '#000102'//陆地颜色
+                }
+            }, {
+                'featureType': 'highway',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'//高速公路
+                }
+            }, {
+                'featureType': 'arterial',
+                'elementType': 'geometry.fill',
+                'stylers': {
+                    'color': '#000000'//马路颜色
+                }
+            }, {
+                'featureType': 'arterial',
+                'elementType': 'geometry.stroke',
+                'stylers': {
+                    'color': '#0b3d51'//马路边界颜色
+                }
+            }, {
+                'featureType': 'local',
+                'elementType': 'geometry',
+                'stylers': {
+                    'color': '#000000'
+                }
+            }, {
+                'featureType': 'railway',
+                'elementType': 'geometry.fill',
+                'stylers': {
+                    'color': '#000000'//铁路
+                }
+            }, {
+                'featureType': 'railway',
+                'elementType': 'geometry.stroke',
+                'stylers': {
+                    'color': '#08304b'//铁路边界
+                }
+            }, {
+                'featureType': 'subway',//地铁
+                'elementType': 'geometry',
+                'stylers': {
+                    'lightness': -70
+                }
+            }, {
+                'featureType': 'building',
+                'elementType': 'geometry.fill',
+                'stylers': {
+                    'color': '#000000'//建筑
+                }
+            }, {
+                'featureType': 'all',
+                'elementType': 'labels.text.fill',
+                'stylers': {
+                    'color': '#857f7f'//地图显示文本颜色
+                }
+            }, {
+                'featureType': 'all',
+                'elementType': 'labels.text.stroke',
+                'stylers': {
+                    'color': '#000000'//地图显示文本边缘颜色
+                }
+            }, {
+                'featureType': 'building',
+                'elementType': 'geometry',
+                'stylers': {
+                    'color': '#022338'//建筑
+                }
+            }, {
+                'featureType': 'green',
+                'elementType': 'geometry',
+                'stylers': {
+                    'color': '#062032'//绿化带颜色
+                }
+            }, {
+                'featureType': 'boundary',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#465b6c'//边界颜色
+                }
+            }, {
+                'featureType': 'manmade',
+                'elementType': 'all',
+                'stylers': {
+                    'color': '#022338'
+                }
+            }, {
+                'featureType': 'label',
+                'elementType': 'all',
+                'stylers': {
+                    'visibility': 'off'//所有地点文本
+                }
+            }]
+        }
+    },
+    tooltip: {
+        trigger: 'item'
+    },
+    legend: {
+        selectedMode: 'single',
+        orient: 'vertical',
+        y: 'bottom',
+        x: 'right',
+        data: ['热门出行站点', '热门换乘站点'],//数据切换
+        textStyle: {
+            color: '#fff'
+        }
+    },
+    /*visualMap: [{
+        left: 'right',
+        top: '10%',
+        dimension: 2,
+        min: 0,
+        max: 100,
+        itemWidth: 30,
+        itemHeight: 120,
+        calculable: true,
+        precision: 0.1,
+        inRange: {
+            symbolSize: [3, 10]
+        },
+        outOfRange: {
+            symbolSize: [3, 10],
+            color: ['rgba(255,255,255,.2)']
+        }
+    }],*/
+    series: [{
+        name: '热门出行站点',
+        type: 'scatter',
+        coordinateSystem: 'bmap',
+        symbolSize: function(val) {
+            return val[2] / 10;//圆点大小
+        },
+        label: {
+            normal: {
+                formatter: '{b}',//圆点显示文本
+                position: 'right',
+                show: false
+            },
+            emphasis: {
+                show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#00FFFF'//小圆点颜色
+            }
+        }
+    }, {
+        name: '热门出行站点',
+        type: 'effectScatter',
+        coordinateSystem: 'bmap',
+        symbolSize: function(val) {
+            return val[2] / 5;//圆点大小
+        },
+        showEffectOn: 'render',
+        rippleEffect: {
+            brushType: 'stroke'
+        },
+        hoverAnimation: true,
+        label: {
+            normal: {
+                formatter: '{b}',//圆点显示文本
+                position: 'right',
+                show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#0FFF0F',//大圆点颜色
+                shadowBlur: 10,
+                shadowColor: '#333'//大圆点阴影颜色
+            }
+        },
+        zlevel: 1
+    }, {
+        name: '热门换乘站点',
+        type: 'scatter',
+        coordinateSystem: 'bmap',
+        symbolSize: function(val) {
+            return val[3] / 10;
+        },
+        label: {
+            normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: false
+            },
+            emphasis: {
+                show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#ffa022'
+            }
+        }
+    }, {
+        name: '热门换乘站点',
+        type: 'effectScatter',
+        coordinateSystem: 'bmap',
+        symbolSize: function(val) {
+            return val[3] / 5;
+        },
+        showEffectOn: 'render',
+        rippleEffect: {
+            brushType: 'stroke'
+        },
+        hoverAnimation: true,
+        label: {
+            normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#FF960D',
+                shadowBlur: 10,
+                shadowColor: '#333'
+            }
+        },
+        zlevel: 1
+    }]
+};
+
+$.getJSON(uploadedDataURL, function(rawData) {
+    var data = convertData(rawData);
+    option.series[0].data = data;
+    option.series[1].data = data.sort(function(a, b) {
+        return b.value[2] - a.value[2];
+    }).slice(0, 10);
+    option.series[2].data = data;
+    option.series[3].data = data.sort(function(a, b) {
+        return b.value[3] - a.value[3];
+    }).slice(0, 10);
+    myChart.setOption(option);
+    //console.log(option);
+    //获取echart中使用的bmap实例
+    var map = myChart.getModel().getComponent('bmap').getBMap();
+     map.disableDoubleClickZoom();
+    map.centerAndZoom("南昌", 13);//中心地点 ，地图放大级别
+
+});
+    </script>
+
+</body>
+</html>
